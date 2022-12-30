@@ -146,6 +146,9 @@ def main():
         filt.process_sort_output_files()
         filt.process_haps_info()
         logger.info("Finished filtering.")
+    else:
+        raise ValueError('Use "python Begum.py --help" to see your options.')
 
 
-main()
+if __name__ == "__main__":
+    main()
