@@ -63,7 +63,7 @@ def compare_tag_info_files(tag_info_files: list[File]) -> None:
     print("Tag info files contain the same data.")
 
 
-def file(file_path: str) -> File:
+def text_file(file_path: str) -> File:
 
     try:
         return Path(file_path).read_text().splitlines()
@@ -75,8 +75,8 @@ def parse_cli_arguments() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--summary_files", type=file, nargs="+", required=True)
-    parser.add_argument("--tag_info_files", type=file, nargs="+", required=True)
+    parser.add_argument("--summary_files", type=text_file, nargs="+", required=True)
+    parser.add_argument("--tag_info_files", type=text_file, nargs="+", required=True)
 
     cli_args = parser.parse_args()
 
