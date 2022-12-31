@@ -26,7 +26,8 @@ def parse_cl_arguments():
     """
     parser = argparse.ArgumentParser(prog="Begum", description="Metabarcoding \
                                      and eDNA sequence preprocessing tool",
-                                     version="0.1", )
+                                    )
+    parser.add_argument('--version', action='version', version='%(prog)s 0.2')
     subparser = parser.add_subparsers(help="Begum command to run",
                                       dest="command")
 
