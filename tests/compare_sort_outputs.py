@@ -1,3 +1,9 @@
+"""
+Script to compare the outputs from multiple runs of ``Begum sort``. The order of lines for each section in each file is
+not enforced. Thus, two files are considered the same if the lines are the same but in a different order. The help for
+this script can be obtained by running "python compare_sort_outputs.py --help".
+"""
+
 import argparse
 import re
 from collections import Counter
