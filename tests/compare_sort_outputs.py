@@ -153,10 +153,24 @@ def parse_cli_arguments() -> argparse.Namespace:
         is less than 2.
     """
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Script to compare the results of multiple runs of Begun sort")
 
-    parser.add_argument("--summary_files", type=text_file, nargs="+", required=True)
-    parser.add_argument("--tag_info_files", type=text_file, nargs="+", required=True)
+    parser.add_argument(
+        "--summary_files",
+        type=text_file,
+        nargs="+",
+        required=True,
+        metavar="FILE",
+        help="List of file paths to summary counts files to compare."
+    )
+    parser.add_argument(
+        "--tag_info_files",
+        type=text_file,
+        nargs="+",
+        required=True,
+        metavar="FILE",
+        help="List of file paths to tag info files to compare."
+    )
 
     cli_args = parser.parse_args()
 
