@@ -86,11 +86,13 @@ def compare_summary_files(summary_files: tuple[ParsedSummaryFile, ...]) -> None:
 
     error_message = "Summary files differ."
 
-    for summary_file in summary_files[1:]:
-        assert set(summary_files[0].keys()) == set(summary_file.keys()), error_message
+    reference_summary_file = summary_files[0]
 
-    for section_name in summary_files[0].keys():
-        reference_section_counter = Counter(summary_files[0][section_name])
+    for summary_file in summary_files[1:]:
+        assert set(reference_summary_file.keys()) == set(summary_file.keys()), error_message
+
+    for section_name in reference_summary_file.keys():
+        reference_section_counter = Counter(reference_summary_file[section_name])
         for summary_file in summary_files[1:]:
             assert reference_section_counter == Counter(summary_file[section_name]), error_message
 
@@ -117,9 +119,11 @@ def compare_tag_info_files(tag_info_files: list[File]) -> None:
 
     error_message = "Summary files differ."
 
+    reference_tag_info_file = tag_info_files[0]
+
     for tag_info_file in tag_info_files[1:]:
-        assert tag_info_files[0][0] == tag_info_file[0], error_message
-        assert Counter(tag_info_files[0]) == Counter(tag_info_file), error_message
+        assert reference_tag_info_file[0] == tag_info_file[0], error_message
+        assert Counter(reference_tag_info_file) == Counter(tag_info_file), error_message
 
     print("Tag info files contain the same data.")
 
