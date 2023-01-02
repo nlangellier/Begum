@@ -2,7 +2,10 @@
 Script to compare the outputs from multiple runs of ``Begum sort``. The order of lines for each
 section in each file is not enforced. Thus, two files are considered the same if the lines are the
 same but in a different order. The help for this script can be obtained by running
-"python compare_sort_outputs.py --help".
+"python compare_sort_outputs.py --help". The intended use case for this test is to compare results
+of ``Begum sort`` when run in different virtual environments, but with the same inputs. E.g. running
+``Begum sort`` with the same inputs but different versions of ``biopython`` or different versions of
+Python.
 """
 
 import argparse
@@ -140,7 +143,7 @@ def text_file(file_path: str) -> File:
     Raises
     ------
     TypeError
-        All exceptions as caught and re-thrown as a ``TypeError`` so that
+        All exceptions are caught and re-thrown as a ``TypeError`` so that
         ``argparse.ArgumentParser.parse_args`` will return a useful error message
         (see <https://docs.python.org/3/library/argparse.html#type>).
     """
@@ -158,7 +161,7 @@ def parse_cli_arguments() -> argparse.Namespace:
     Returns
     -------
     Namespace
-        The values of the parse command line arguments.
+        The values of the parsed command line arguments.
 
     Raises
     ------
