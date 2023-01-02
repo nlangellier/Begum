@@ -1,7 +1,8 @@
 """
-Script to compare the outputs from multiple runs of ``Begum sort``. The order of lines for each section in each file is
-not enforced. Thus, two files are considered the same if the lines are the same but in a different order. The help for
-this script can be obtained by running "python compare_sort_outputs.py --help".
+Script to compare the outputs from multiple runs of ``Begum sort``. The order of lines for each
+section in each file is not enforced. Thus, two files are considered the same if the lines are the
+same but in a different order. The help for this script can be obtained by running
+"python compare_sort_outputs.py --help".
 """
 
 import argparse
@@ -25,8 +26,9 @@ def parse_summary_file(raw_summary_file: File) -> ParsedSummaryFile:
     Returns
     -------
     ParsedSummaryFile
-        A dictionary where the keys are the section names of the summary file and the values are lists of strings where
-        each string is one line of the associated section in the summary file.
+        A dictionary where the keys are the section names of the summary file and the values are
+        lists of strings where each string is one line of the associated section in the summary
+        file.
 
     Raises
     ------
@@ -44,7 +46,8 @@ def parse_summary_file(raw_summary_file: File) -> ParsedSummaryFile:
     for line in raw_summary_file:
 
         if new_section:
-            assert section_separator.match(line) is not None, "New section does not contain section separator."
+            error_message = "New section does not contain section separator."
+            assert section_separator.match(line) is not None, error_message
             new_section = False
             continue
 
@@ -61,8 +64,8 @@ def parse_summary_file(raw_summary_file: File) -> ParsedSummaryFile:
 
 def compare_summary_files(summary_files: tuple[ParsedSummaryFile, ...]) -> None:
     """
-    Compares multiple (at least 2) summary files to ensure the contents are the same for each section of the summary
-    file.
+    Compares multiple (at least 2) summary files to ensure the contents are the same for each
+    section of the summary file.
 
     Parameters
     ----------
@@ -83,8 +86,9 @@ def compare_summary_files(summary_files: tuple[ParsedSummaryFile, ...]) -> None:
         assert set(summary_files[0].keys()) == set(summary_file.keys()), error_message
 
     for section_name in summary_files[0].keys():
+        reference_section_counter = Counter(summary_files[0][section_name])
         for summary_file in summary_files[1:]:
-            assert Counter(summary_files[0][section_name]) == Counter(summary_file[section_name]), error_message
+            assert reference_section_counter == Counter(summary_file[section_name]), error_message
 
     print("Summary files contain the same data.")
 
@@ -96,7 +100,8 @@ def compare_tag_info_files(tag_info_files: list[File]) -> None:
     Parameters
     ----------
     tag_info_files
-        A list of tag info files where each file is a list of strings representing the lines of the associated file.
+        A list of tag info files where each file is a list of strings representing the lines of the
+        associated file.
 
     Raises
     ------
@@ -117,8 +122,9 @@ def compare_tag_info_files(tag_info_files: list[File]) -> None:
 
 def text_file(file_path: str) -> File:
     """
-    Returns the contents of a text file as a list of strings with each string representing each line of the file. This
-    function is intended to be used as the value of the ``type`` argument in ``argparse.ArgumentParser.add_argument``.
+    Returns the contents of a text file as a list of strings with each string representing each line
+    of the file. This function is intended to be used as the value of the ``type`` argument in
+    ``argparse.ArgumentParser.add_argument``.
 
     Parameters
     ----------
@@ -133,8 +139,9 @@ def text_file(file_path: str) -> File:
     Raises
     ------
     TypeError
-        All exceptions as caught and re-thrown as a ``TypeError`` so that ``argparse.ArgumentParser.parse_args`` will
-        return a useful error message (see <https://docs.python.org/3/library/argparse.html#type>).
+        All exceptions as caught and re-thrown as a ``TypeError`` so that
+        ``argparse.ArgumentParser.parse_args`` will return a useful error message
+        (see <https://docs.python.org/3/library/argparse.html#type>).
     """
 
     try:
@@ -155,11 +162,13 @@ def parse_cli_arguments() -> argparse.Namespace:
     Raises
     ------
     AssertionError
-        If the number of summary files is not equal to the number of tag info files or if the number of files for either
-        is less than 2.
+        If the number of summary files is not equal to the number of tag info files or if the number
+        of files for either is less than 2.
     """
 
-    parser = argparse.ArgumentParser(description="Script to compare the results of multiple runs of Begun sort")
+    parser = argparse.ArgumentParser(
+        description="Script to compare the results of multiple runs of Begun sort"
+    )
 
     parser.add_argument(
         "--summary_files",
@@ -180,7 +189,8 @@ def parse_cli_arguments() -> argparse.Namespace:
 
     cli_args = parser.parse_args()
 
-    error_message = "Number of summary files must equal number of tag info files and must be greater than or equal to 2"
+    error_message = "Number of summary files must equal number of tag info files and must be " \
+                    "greater than or equal to 2"
     assert len(cli_args.summary_files) == len(cli_args.tag_info_files) >= 2, error_message
 
     return cli_args
