@@ -9,9 +9,10 @@ import argparse
 import re
 from collections import Counter
 from pathlib import Path
+from typing import TypeAlias
 
-File = list[str]
-ParsedSummaryFile = dict[str, File]
+File: TypeAlias = list[str]
+ParsedSummaryFile: TypeAlias = dict[str, list[str]]
 
 
 def parse_summary_file(raw_summary_file: File) -> ParsedSummaryFile:
