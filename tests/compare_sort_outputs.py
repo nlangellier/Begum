@@ -171,7 +171,7 @@ def parse_cli_arguments() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "--summary_files",
+        "--summary-files",
         type=text_file,
         nargs="+",
         required=True,
@@ -179,7 +179,7 @@ def parse_cli_arguments() -> argparse.Namespace:
         help="List of file paths to summary counts files to compare."
     )
     parser.add_argument(
-        "--tag_info_files",
+        "--tag-info-files",
         type=text_file,
         nargs="+",
         required=True,
