@@ -95,7 +95,7 @@ def compare_summary_files(summary_files: tuple[ParsedSummaryFile, ...]) -> None:
     reference_summary_file = summary_files[0]
 
     for summary_file in summary_files[1:]:
-        assert set(reference_summary_file.keys()) == set(summary_file.keys()), error_message
+        assert reference_summary_file.keys() == summary_file.keys(), error_message
 
     for section_name in reference_summary_file.keys():
         reference_section_counter = Counter(reference_summary_file[section_name])
