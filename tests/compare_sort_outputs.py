@@ -134,7 +134,7 @@ def compare_tag_info_files(tag_info_files: list[File]) -> None:
     print("Tag info files contain the same data.")
 
 
-def text_file(file_path: str) -> File:
+def text_file(file_path: str | Path) -> File:
     """
     Returns the contents of a text file as a list of strings with each string representing each line
     of the file. This function is intended to be used as the value of the ``type`` argument in
@@ -201,31 +201,30 @@ def parse_cli_arguments() -> argparse.Namespace:
         help="List of file paths to tag info files to compare."
     )
 
-    cli_args = parser.parse_args()
+    parsed_args = parser.parse_args()
 
     error_message = "Number of summary files must equal number of tag info files and must be " \
                     "greater than or equal to 2"
-    assert len(cli_args.summary_files) == len(cli_args.tag_info_files) >= 2, error_message
+    assert len(parsed_args.summary_files) == len(parsed_args.tag_info_files) >= 2, error_message
 
-    return cli_args
+    return parsed_args
 
 
-def main() -> None:
+def compare_results(summary_files: list[File], tag_info_files: list[File]) -> None:
     """
     Executes the comparison of outputs from multiple (at least 2) runs of ``Begum sort``.
     """
 
-    cli_args = parse_cli_arguments()
-
-    summary_files = tuple(
-        parse_summary_file(raw_summary_file) for raw_summary_file in cli_args.summary_files
+    parsed_summary_files = tuple(
+        parse_summary_file(raw_summary_file) for raw_summary_file in summary_files
     )
-    compare_summary_files(summary_files)
+    compare_summary_files(parsed_summary_files)
 
-    compare_tag_info_files(cli_args.tag_info_files)
-
-    print("\nAll comparisons resulted in identical data.\n")
+    compare_tag_info_files(tag_info_files)
 
 
 if __name__ == "__main__":
-    main()
+
+    cli_args = parse_cli_arguments()
+    compare_results(summary_files=cli_args.summary_files, tag_info_files=cli_args.tag_info_files)
+    print("\nAll comparisons resulted in identical data.\n")
